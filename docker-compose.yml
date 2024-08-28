@@ -12,12 +12,6 @@ services:
       POSTGRES_PASSWORD: 1234
     ports:
       - "5432:5432"
-    # command: >
-    #   bash -c "
-    #   exec docker-entrypoint.sh postgres &
-    #   sleep 10 &&
-    #   pg_restore -U postgres -d db_billetera /docker-entrypoint-initdb.d/db_billetera.dump;
-    #   fg"
 
   web:
     build: .

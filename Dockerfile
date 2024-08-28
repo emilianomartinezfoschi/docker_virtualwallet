@@ -13,12 +13,6 @@ COPY . /app/
 # Instala las dependencias de Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# # Ejecuta las migraciones
-# RUN python manage.py migrate --noinput
-
-# # Recolecta los archivos estáticos
-# RUN python manage.py collectstatic --noinput
-
 # Expone el puerto en el que correrá la app
 EXPOSE 8000
 
