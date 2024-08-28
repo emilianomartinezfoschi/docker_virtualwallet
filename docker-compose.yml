@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:16
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db_billetera.dump:/docker-entrypoint-initdb.d/db_billetera.dump
+    environment:
+      POSTGRES_DB: db_billetera
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5432:5432"
+    # command: >
+    #   bash -c "
+    #   exec docker-entrypoint.sh postgres &
+    #   sleep 10 &&
+    #   pg_restore -U postgres -d db_billetera /docker-entrypoint-initdb.d/db_billetera.dump;
+    #   fg"
+
+  web:
+    build: .
+    command: >
+      sh -c "
+      python manage.py collectstatic --noinput &&
+      gunicorn projecto_billetera.wsgi:application --bind 0.0.0.0:8000 &&
+      python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres:1234@db:5432/db_billetera
+
+volumes:
+  postgres_data:
