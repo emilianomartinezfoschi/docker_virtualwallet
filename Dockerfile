@@ -10,6 +10,8 @@ WORKDIR /app
 # Copia los archivos de tu proyecto al contenedor
 COPY . /app/
 
+RUN chmod +x /app/startup.sh
+
 # Instala las dependencias de Python
 RUN pip install --no-cache-dir -r requirements.txt
 
