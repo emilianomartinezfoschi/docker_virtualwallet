@@ -2,7 +2,7 @@
 FROM python:3.11-slim
 
 # Instala las dependencias necesarias
-RUN apt-get update && apt-get install -y libpq-dev gcc
+RUN apt-get update && apt-get install -y libpq-dev gcc netcat-openbsd
 
 # Configura el directorio de trabajo dentro del contenedor
 WORKDIR /app
@@ -17,4 +17,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8000
 
 # Comando para correr la aplicación Django
-CMD ["gunicorn", "projecto_billetera.wsgi:application", "--bind","python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["sh", "/app/startup.sh"]
+
+
+# Comando para correr la aplicación Django
+# CMD ["gunicorn", "projecto_billetera.wsgi:application", "--bind","python", "manage.py", "runserver", "0.0.0.0:8000"]
